@@ -44,23 +44,37 @@ export default class ExpenseController {
 
     static async getExpenses (req:Request,res:Response) {
         const user = req.user!
-        const from = req.query.from
-        const to = req.query.to
-        const categories = req.query.categories
+        const from = req.query.from as string | undefined;
+        const to = req.query.to as string | undefined;
+        const categories = req.query.categories as string[] | undefined
 
         console.log(from)
         console.log(to)
         console.log(categories)
-        
+
         try {
-            const expenses = await expenseRepository.find({
-                where:{
-                    user:{
-                        id: user.id
-                    }
-                },
-                relations:["category"]
-            });
+            const queryBuilder = expenseRepository.createQueryBuilder('expense')
+            .where('expense.userId = :userId', { userId: user.id });
+
+            if (from) {
+                const fromDate = new Date(from)
+                queryBuilder.andWhere('expense.date >= :fromDate', { fromDate });
+            }
+
+            if (to) {
+                const toDate = new Date(to)
+                queryBuilder.andWhere('expense.date <= :toDate', { toDate });
+            }
+
+            if (categories) {
+                const categoryIds = categories.map(Number);
+                queryBuilder.andWhere('expense.categoryId IN (:...categoryIds)', { categoryIds });
+            }
+
+            const expenses = await queryBuilder
+                .leftJoinAndSelect('expense.category', 'category')
+                .getMany();
+
             return res.status(200).json(expenses);
         } catch (error) {
             return res.status(500).json({ message: "Internal Server Error" });
