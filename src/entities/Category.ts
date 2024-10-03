@@ -23,7 +23,7 @@ export default class Category {
     @ManyToOne(() => User, (user) => user.categories)
     user!: User
     
-    @OneToMany(() => Expense, (expense) => expense.category, {cascade:true, onDelete: 'CASCADE'})
+    @OneToMany(() => Expense, (expense) => expense.category)
     expenses!: Expense[]
 
     @Column('int',{nullable:true})

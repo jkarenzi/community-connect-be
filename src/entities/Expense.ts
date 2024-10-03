@@ -19,7 +19,7 @@ export default class Expense {
     @Column('text')
     description!: string;
 
-    @ManyToOne(() => Category, (category) => category.expenses)
+    @ManyToOne(() => Category, (category) => category.expenses, {cascade:true, onDelete: 'CASCADE'})
     category!: Category
 
     @ManyToOne(() => User, (user) => user.expenses)
