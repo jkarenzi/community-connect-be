@@ -15,8 +15,6 @@ export const authenticateToken = async (
 ) => {
   const header = req.header('Authorization');
 
-  console.log(header)
-
   if (!header) {
     return res.status(401).json({ status: 'error', message: 'Unauthorized' });
   }

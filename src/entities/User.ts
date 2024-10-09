@@ -4,11 +4,8 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany,
 } from 'typeorm';
 import dotenv from 'dotenv'
-import Category from './Category';
-import Expense from './Expense';
 dotenv.config()
   
 @Entity()
@@ -27,10 +24,4 @@ export default class User {
 
     @UpdateDateColumn()
     updatedAt!: Date;
-
-    @OneToMany(() => Category, (category) => category.user)
-    categories!: Category[]
-
-    @OneToMany(() => Expense, (expense) => expense.user)
-    expenses!: Expense[]
 }
