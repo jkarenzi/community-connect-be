@@ -38,8 +38,9 @@ export default class AuthController {
 
             newUser.email = formData.email
             newUser.password = hashedPassword
+            newUser.role = formData.role
           
-            const savedUser = await userRepository.save(newUser);
+            await userRepository.save(newUser);
           
             return res
               .status(201)
