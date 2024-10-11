@@ -19,7 +19,7 @@ router.route('/own').get(authenticateToken, getAllOwnServices)
 
 router.route('/:id')
     .get(getServiceById)
-    .put(authenticateToken, updateService)
+    .patch(authenticateToken, updateService)
     .delete(authenticateToken, deleteService);
 
 export default router;
