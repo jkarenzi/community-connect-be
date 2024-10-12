@@ -77,7 +77,7 @@ export const getServiceById = async (req: Request, res: Response) => {
         const { id } = req.params;
         const service = await serviceRepository.findOne({
             where: { id: Number(id) },
-            relations: ['serviceProvider']
+            relations: ['serviceProvider','reviews','reviews.user']
         });
 
         if (!service) return res.status(404).json({ message: 'Service not found' });
@@ -108,7 +108,13 @@ export const updateService = async (req: Request, res: Response) => {
 
         const { type, location, availability, pricing, name, description, image } = formData;
 
-        const service = await serviceRepository.findOneBy({ id: Number(id) });
+        const service = await serviceRepository.findOne({ 
+            where:{
+                id: Number(id)
+            },
+            relations:['serviceProvider']  
+        });
+
         if (!service) return res.status(404).json({ message: 'Service not found' });
 
         service.type = type ?? service.type;
@@ -120,6 +126,7 @@ export const updateService = async (req: Request, res: Response) => {
         service.image = image ?? service.image;
 
         const updatedService = await serviceRepository.save(service);
+        console.log(updatedService)
         return res.json(updatedService);
     } catch (error) {
         return res.status(500).json({ message: 'Failed to update service', error });

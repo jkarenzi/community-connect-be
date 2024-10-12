@@ -8,7 +8,6 @@ export const createServiceSchema = Joi.object({
     pricing: Joi.number().required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().uri().required()
 });
 
 
@@ -19,5 +18,4 @@ export const updateServiceSchema = Joi.object({
     pricing: Joi.number().optional(),
     name: Joi.string().optional(),
     description: Joi.string().optional(),
-    image: Joi.string().uri().optional(),
 });

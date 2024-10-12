@@ -8,7 +8,7 @@ const router = Router()
 
 router.use('/auth', authRoutes)
 router.use('/service', serviceRoutes)
-router.use('review', reviewRoutes)
+router.use('/review', reviewRoutes)
 
 
 export default router

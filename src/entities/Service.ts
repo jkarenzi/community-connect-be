@@ -33,7 +33,7 @@ export class Service {
     @Column('text')
     description!: string;
 
-    @Column()
+    @Column('text',{nullable:true})
     image!: string;
 
     @CreateDateColumn()

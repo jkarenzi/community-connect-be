@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import User from "../entities/User";
 import { AppDataSource } from "../config/dataSource";
-import { authSchema } from "../middleware/authSchema";
+import { authSchema, signUpSchema } from "../middleware/authSchema";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
@@ -14,7 +14,7 @@ export default class AuthController {
         try{
             const formData = req.body;
 
-            const validationResult = authSchema.validate(formData);
+            const validationResult = signUpSchema.validate(formData);
           
             if (validationResult.error) {
               return res
