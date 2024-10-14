@@ -49,6 +49,24 @@ export const leaveReview = async (req: Request, res: Response) => {
         newReview.user = user as User
 
         const savedReview = await reviewRepository.save(newReview);
+
+        //calculate new avgRating
+        const allReviews = await reviewRepository.find({where:{
+            service: {
+                id: serviceId
+            }
+        }})
+
+        let sum: number = 0;
+        for(const review of allReviews){
+            sum += review.rating
+        }
+
+        const avgRating = Number((sum / allReviews.length).toPrecision(2))
+
+        service.avgRating = avgRating
+        await serviceRepository.save(service)
+
         return res.status(201).json(savedReview);
     } catch (error) {
         return res.status(500).json({ message: 'Server error', error });

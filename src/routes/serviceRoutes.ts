@@ -8,12 +8,13 @@ import {
     getAllOwnServices
 } from '../controllers/serviceController';
 import { authenticateToken } from '../middleware/authenticate';
+import { upload } from '../middleware/multer';
 
 const router = Router();
 
 router.route('/')
     .get(getAllServices)
-    .post(authenticateToken, createService); 
+    .post(authenticateToken, upload.single('image'), createService);
 
 router.route('/own').get(authenticateToken, getAllOwnServices)    
 

@@ -3,6 +3,7 @@ import { AppDataSource } from '../config/dataSource';
 import { Service } from '../entities/Service';
 import User from '../entities/User';
 import { createServiceSchema } from '../middleware/serviceSchema';
+import imageUpload from '../middleware/cloudinary';
 
 const serviceRepository = AppDataSource.getRepository(Service)
 const userRepository = AppDataSource.getRepository(User)
@@ -34,7 +35,10 @@ export const createService = async (req: Request, res: Response) => {
         service.pricing = pricing;
         service.name = name;
         service.description = description;
-        service.image = image;
+        service.image = (await imageUpload(
+            req.file,
+            "service-images"
+          )) as string;
         service.serviceProvider = user as User;
 
         const savedService = await serviceRepository.save(service);

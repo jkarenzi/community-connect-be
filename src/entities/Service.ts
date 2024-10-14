@@ -36,6 +36,9 @@ export class Service {
     @Column('text',{nullable:true})
     image!: string;
 
+    @Column('float', {default: 0})
+    avgRating!: number
+
     @CreateDateColumn()
     createdAt!: Date;
 
