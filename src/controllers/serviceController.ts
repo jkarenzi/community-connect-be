@@ -115,8 +115,7 @@ export const updateService = async (req: Request, res: Response) => {
         const service = await serviceRepository.findOne({ 
             where:{
                 id: Number(id)
-            },
-            relations:['serviceProvider']  
+            }
         });
 
         if (!service) return res.status(404).json({ message: 'Service not found' });
@@ -129,8 +128,15 @@ export const updateService = async (req: Request, res: Response) => {
         service.description = description ?? service.description;
         service.image = image ?? service.image;
 
-        const updatedService = await serviceRepository.save(service);
-        console.log(updatedService)
+        await serviceRepository.save(service);
+
+        const updatedService = await serviceRepository.findOne({ 
+            where:{
+                id: Number(id)
+            },
+            relations: ['reviews','serviceProvider','reviews.user']
+        });
+
         return res.json(updatedService);
     } catch (error) {
         return res.status(500).json({ message: 'Failed to update service', error });
