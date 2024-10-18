@@ -6,10 +6,9 @@ import {
     UpdateDateColumn,
     OneToMany,
 } from 'typeorm';
-import dotenv from 'dotenv'
 import { Service } from './Service';
-import { Review } from './Review';
-dotenv.config()
+import { Review } from './Review'; 
+import { Chat } from './Chat';
 
 export enum UserRole {
     CONSUMER = "consumer",
@@ -34,14 +33,22 @@ export default class User {
     role!: UserRole;
 
     @OneToMany(() => Service, (service) => service.serviceProvider)
-    services!: Service[]
+    services!: Service[];
 
     @OneToMany(() => Review, (review) => review.user)
-    reviews!: Review[]
+    reviews!: Review[]; 
 
     @CreateDateColumn()
     createdAt!: Date;
 
     @UpdateDateColumn()
     updatedAt!: Date;
+
+     // Add a relationship for chats (user can be a sender or recipient)
+     @OneToMany(() => Chat, (chat) => chat.sender)
+     sentChats!: Chat[];
+ 
+     @OneToMany(() => Chat, (chat) => chat.recipient)
+     receivedChats!: Chat[];
+    chats: any;
 }

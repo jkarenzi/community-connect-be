@@ -50,4 +50,5 @@ export class Service {
 
     @OneToMany(() => Review, (review) => review.service)
     reviews!: Review[]
+    chats: any;
 }

@@ -3,6 +3,9 @@ import User from "../entities/User";
 import dotenv from 'dotenv'
 import { Service } from "../entities/Service";
 import { Review } from "../entities/Review";
+import Chat from '../entities/Chat';  
+
+
 dotenv.config()
 
 const env = {
@@ -22,7 +25,7 @@ export const AppDataSource = new DataSource({
     database: env.database,
     synchronize: true,
     logging: true,
-    entities: [User, Service, Review],
+    entities: [User, Service, Review, Chat],
     subscribers: [],
     migrations: [],
 })
